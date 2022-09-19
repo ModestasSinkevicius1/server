@@ -90,6 +90,48 @@ app.get('/trees/by/:type', (req, res) => {
   });
 })
 
+//CREATE
+// INSERT INTO table_name (column1, column2, column3, ...)
+// VALUES (value1, value2, value3, ...);
+app.post('/trees', (req, res) => {
+  const sql = `
+  INSERT INTO medis (title, height, type)
+  VALUES (?, ?, ?)
+  `;
+  con.query(sql, [req.body.title, req.body.height, req.body.type], (err, result) => {
+      if (err) throw err;
+      res.send(result);
+  });
+});
+
+// DELETE
+// DELETE FROM table_name WHERE condition;
+app.delete('/trees/:id', (req, res) => {
+  const sql = `
+  DELETE FROM Medis WHERE id = ?
+  `;
+  con.query(sql, [req.params.id], (err, result) => {
+      if (err) throw err;
+      res.send(result);
+  });
+});
+
+// EDIT
+// UPDATE table_name
+// SET column1 = value1, column2 = value2, ...
+// WHERE condition;
+app.put('/trees/:id', (req, res) => {
+  const sql = `
+  UPDATE Medis SET title = ?, height = ?, type= ? WHERE id = ?
+  `;
+  con.query(sql, [req.body.title, req.body.height, req.body.type, req.params.id], (err, result) => {
+      if (err) throw err;
+      res.send(result);
+  });
+});
+
+
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
