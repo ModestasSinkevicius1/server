@@ -130,6 +130,59 @@ app.put('/trees/:id', (req, res) => {
   });
 });
 
+// INNER JOIN
+// SELECT column_name(s)
+// FROM table1
+// INNER JOIN table2
+// ON table1.column_name = table2.column_name;
+app.get("/clients/inner", (req, res)=>{
+  const sql =`
+  SELECT cl.id, ph.id AS ph_id, name, phone 
+  FROM clients AS cl
+  INNER JOIN phones  AS ph
+  ON cl.id = ph.client_id
+  `;
+  con.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+})
+
+// LEFT JOIN
+// SELECT column_name(s)
+// FROM table1
+// LEFT JOIN table2
+// ON table1.column_name = table2.column_name;
+app.get("/clients/left", (req, res)=>{
+  const sql =`
+  SELECT cl.id, ph.id AS ph_id, name, phone 
+  FROM clients AS cl
+  LEFT JOIN phones AS ph
+  ON cl.id = ph.client_id
+  `;
+  con.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+})
+
+// RIGHT JOIN
+// SELECT column_name(s)
+// FROM table1
+// RIGHT JOIN table2
+// ON table1.column_name = table2.column_name;
+app.get("/clients/right", (req, res)=>{
+  const sql =`
+  SELECT cl.id, ph.id AS ph_id, name, phone 
+  FROM clients AS cl
+  RIGHT JOIN phones AS ph
+  ON cl.id = ph.client_id
+  `;
+  con.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send(result);
+  });
+})
 
 
 app.listen(port, () => {
